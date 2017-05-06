@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import Beacon from './src/beacon';
+import App from './src';
 
 export default class BeaconProject extends Component {
   render() {
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('BeaconProject', () => BeaconProject);
+AppRegistry.registerComponent('BeaconProject', () => App);

@@ -1,54 +1,43 @@
 import { DeviceEventEmitter } from 'react-native'
 import Beacons from 'react-native-beacons-manager'
 
-// Tells the library to detect iBeacons
-Beacons.detectIBeacons()
+function init() {
+  Beacons.detectIBeacons();
+}
 
-// Start detecting all iBeacons in the nearby
-try {
+function beaconsDetected(data) {
+  console.log("beacons: ", data.beacons);
+}
 
-  // Beacons.getMonitoredegions().then((stuff) => {
-  //   console.log('monitored: ', stuff)
-  // })
-
-
-  // Beacons.getRangedRegions().then((stuff) => {
-  //   console.log('ranged: ', stuff)
-  // })
-
-  const options = {
-    identifier: 'Showroom',
-    uuid: '00000000-0000-0000-000000000000'
-  }
-
+function detectBeacons() {
   Beacons
   .startRangingBeaconsInRegion('00000000-0000-0000-000000000000')
   .then(() => {
     console.log(`Beacons ranging started succesfully!`)
-
+  })
+  .catch(err => {
+    console.log(`Beacons ranging not started, error: ${err}`)
   })
 
-  fetch('http://keisari.herokuapp.com/loc',
+  DeviceEventEmitter.addListener('beaconsDidRange', beaconsDetected);
+}
+
+function postLocation(x, y) {
+  return fetch('http://keisari.herokuapp.com/loc',
     {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user: 'tuhatpäkki', x: 20, y: 20 })
-  })
-  .then((res) => {
-    console.log("response: ", res)
-  })
-} catch (err) {
-  console.log(`Beacons ranging not started, error: ${error}`)
+      body: JSON.stringify({ user: 'tuhatpäkki', x, y })
+    })
+    .then((res) => {
+      console.log("location saved: ", res)
+    })
 }
 
-// Print a log of the detected iBeacons (1 per second)
-DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
-  // console.log('Found beacons!', data.beacons)
-})
-
-console.log('lasdfasfasdf')
+init();
+detectBeacons();
 
 export default "asdf";
