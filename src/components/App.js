@@ -13,6 +13,8 @@ import {
 // Styles
 // import styles from './Styles/RootContainerStyles'
 
+import BeaconContainer from './Beacon';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -54,6 +56,7 @@ export default class App extends Component {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
+        <BeaconContainer />
       </View>
     )
   }
