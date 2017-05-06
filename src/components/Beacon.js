@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ListView } from 'react-native';
+import { View, Text, ListView, Button } from 'react-native';
 
 import styles from './Beacon.style'
 
@@ -20,10 +20,14 @@ class BeaconContainer extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps.beacons);
+    // console.log(newProps.beacons);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.beacons)
     });
+  }
+
+  onPressReload() {
+    throw ("lol");
   }
 
   renderRow (rowData) {
@@ -34,6 +38,7 @@ class BeaconContainer extends React.Component {
         {/*<Text style={styles.boldLabel}>uuid: {rowData.uuid}</Text>*/}
         <Text style={styles.boldLabel}>major: {rowData.major}</Text>
         <Text style={styles.label}>minor: {rowData.minor}</Text>
+        <Text style={styles.label}>dist: {rowData.distance}</Text>
       </View>
     )
   }
@@ -42,6 +47,12 @@ class BeaconContainer extends React.Component {
     const { beacons } = this.props;
     return (
       <View >
+        <Button
+          onPress={this.onPressReload}
+          title="Reload"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
         <Text style={styles.title}>BEACONS OH YEAAAH</Text>
         <ListView
           contentContainerStyle={styles.listContainer}
