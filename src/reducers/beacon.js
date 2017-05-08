@@ -60,10 +60,6 @@ const INITIAL_STATE = fromJS({
   ]
 });
 
-function findIfBeaconIsHardcoded(beacon, arr) {
-  return arr.find(b => b.major === beacon.major && b.minor === beacon.minor);
-}
-
 function findByMajorAndMinor(beacon, arr) {
   return arr.findIndex((current) => current.major === beacon.major && current.minor === beacon.minor);
 }
@@ -73,8 +69,8 @@ function combineArraysByUuid(arr1, arr2, hardCoded) {
   arr2.forEach((item) => {
     const index = findByMajorAndMinor(item, union);
     if (index === -1) {
-      const isHardCoded = findIfBeaconIsHardcoded(item, hardCoded);
-      if (isHardCoded) {
+      const isHardCoded = findByMajorAndMinor(item, hardCoded);
+      if (isHardCoded !== -1) {
         union.push(item);
       }
     } else {
